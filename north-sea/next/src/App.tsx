@@ -2,12 +2,19 @@ import React from "react";
 import {
   createNavigationContainerRef,
   NavigationContainer,
-  useNavigation
+  useNavigation,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Image, ImageBackground, Dimensions } from "react-native";
 import { StartUp, Battle, Main } from "./types/imports";
 import { Provider as PaperProvider, Button } from "react-native-paper";
+
+type MenuOps = {
+  op1: string;
+  op2: string;
+};
+
+const Stack = createNativeStackNavigator();
 
 class MainMenu extends React.Component<
   {
@@ -38,7 +45,7 @@ class MainMenu extends React.Component<
           Play Again
         </Button>
       ),
-      buttonShow: false
+      buttonShow: false,
     };
   }
 
@@ -61,20 +68,20 @@ class MainMenu extends React.Component<
           <ImageBackground
             style={{
               width: Dimensions.get("window").width,
-              height: Dimensions.get("window").height
+              height: Dimensions.get("window").height,
             }}
             source={StartUp}
           >
             {this.state.show && <Battle />}
             <View
               style={{
-                position: "absolute"
+                position: "absolute",
               }}
             >
               {this.state.showMenu && (
                 <Main
                   title="Menu"
-                  option1="Free battle"
+                  option1="Free Battle"
                   option2="Demo Chapter 1"
                   returnState={this.menuReturn}
                 />
@@ -94,11 +101,11 @@ function Wrapper(props) {
 
 export default function () {
   return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="MainMenu">
-          <Stack.Screen name="MainMenu" component={Wrapper} />
-          <Stack.Screen name="Battle" component={Battle} />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="MainMenu">
+        <Stack.Screen name="MainMenu" component={Wrapper} />
+        <Stack.Screen name="Battle" component={Battle} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
