@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Dimensions,
   ImageBackground,
-  TextInput
+  TextInput,
 } from "react-native";
 import {
   FreeCruise,
@@ -18,28 +18,28 @@ import {
   Infantry,
   Trainee,
   Ocean,
-  CannonFireAnim
+  CannonFireAnim,
 } from "./types/imports";
 import {
   TabRouter,
   ThemeProvider,
-  useNavigation
+  useNavigation,
 } from "@react-navigation/native";
 const s = StyleSheet.create({
   health: {
     color: "#117A65",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   attack: {
     color: "firebrick",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
-    padding: 10
-  }
+    padding: 10,
+  },
 });
 
 /** Inverals for movement */
@@ -47,11 +47,11 @@ let ins: { up: number; down: number; left: number; right: number } = {
   up: 0,
   down: 0,
   left: 0,
-  right: 0
+  right: 0,
 };
 
 const ssplayer = new Infantry([36, 6, false, 2000]);
-const en = new Trainee([40, 4, false, 3000]);
+// const en = new Trainee([40, 4, false, 3000]);
 
 class Battle extends React.Component<{ navigation }, AppState> {
   /** Player positions: *were* passed to enemy component (they don't update though cause react is gay)*/
@@ -67,12 +67,12 @@ class Battle extends React.Component<{ navigation }, AppState> {
     weaponView: [false, false],
     opacity: [1, 1],
     pstats: ssplayer.setStats(),
-    enstats: en.setStats(),
+    enstats: [40, 4, false, 3000],
     log: [],
     pIsSelect: false,
     anims: { move: false, fire: false },
     playing: false,
-    playerIsPressed: false
+    playerIsPressed: false,
   };
   constructor(props) {
     super(props);
@@ -80,18 +80,18 @@ class Battle extends React.Component<{ navigation }, AppState> {
       p1: this.state.p1loc,
       p2: [0],
       p3: [0],
-      enemy: this.state.enloc
+      enemy: this.state.enloc,
     };
     /** Player selects, known as ps to children. Remember to pass to all children!  */
     this.pSelect = {
       p1: false,
       p2: false,
-      p3: false
+      p3: false,
     };
     this.didAttack = false;
     this.d = {
       width: Dimensions.get("window").width,
-      height: Dimensions.get("window").height
+      height: Dimensions.get("window").height,
     };
   }
 
@@ -105,22 +105,22 @@ class Battle extends React.Component<{ navigation }, AppState> {
     this.setState({
       anims: {
         fire: true,
-        move: false
+        move: false,
       },
-      playing: true
+      playing: true,
     });
     setTimeout(() => {
       this.setState({
         anims: {
           fire: false,
-          move: true
+          move: true,
         },
-        playing: false
+        playing: false,
       });
     }, 3000);
     this.setState({
       enstats: [e[0] - p[1], e[1], e[2], e[3]],
-      pIsSelect: false
+      pIsSelect: false,
     });
     return;
   }
@@ -175,7 +175,7 @@ class Battle extends React.Component<{ navigation }, AppState> {
           <ImageBackground
             style={{
               width: Dimensions.get("window").width,
-              height: Dimensions.get("window").height
+              height: Dimensions.get("window").height,
             }}
             source={Ocean}
           >
@@ -184,7 +184,7 @@ class Battle extends React.Component<{ navigation }, AppState> {
                 style={{
                   width: Dimensions.get("window").width,
                   height: Dimensions.get("window").height,
-                  position: "absolute"
+                  position: "absolute",
                 }}
               >
                 <CannonFireAnim />
@@ -200,7 +200,7 @@ class Battle extends React.Component<{ navigation }, AppState> {
                   style={{
                     position: "absolute",
                     top: this.state.p1loc[0],
-                    left: this.state.p1loc[1]
+                    left: this.state.p1loc[1],
                   }}
                 >
                   <Animated.Image
@@ -208,7 +208,7 @@ class Battle extends React.Component<{ navigation }, AppState> {
                     style={{
                       width: 22,
                       height: 28,
-                      left: 5
+                      left: 5,
                     }}
                   />
                 </View>
@@ -227,7 +227,7 @@ class Battle extends React.Component<{ navigation }, AppState> {
                   style={{
                     top: this.state.enloc[0],
                     left: this.state.enloc[1],
-                    position: "absolute"
+                    position: "absolute",
                   }}
                 >
                   <Image
@@ -236,7 +236,7 @@ class Battle extends React.Component<{ navigation }, AppState> {
                       width: 22,
                       height: 28,
                       left: 5,
-                      opacity: this.state.opacity[1]
+                      opacity: this.state.opacity[1],
                     }}
                   />
                 </View>
@@ -250,12 +250,12 @@ class Battle extends React.Component<{ navigation }, AppState> {
                   width: 500,
                   height: 100,
                   borderStyle: "solid",
-                  borderWidth: 2
+                  borderWidth: 2,
                 }}
               >
                 <View
                   style={{
-                    flexDirection: "column"
+                    flexDirection: "column",
                   }}
                 >
                   {this.state.log.map((s, i) => {
@@ -267,7 +267,7 @@ class Battle extends React.Component<{ navigation }, AppState> {
               <View
                 style={{
                   position: "absolute",
-                  top: 350
+                  top: 350,
                 }}
               >
                 <Button

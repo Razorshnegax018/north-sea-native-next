@@ -62,7 +62,7 @@ export const Main: React.FC<MainProps> = (props) => {
     Animated.timing(fadeIn, {
       toValue: 1,
       duration: 500,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start();
   }, []);
 
@@ -75,8 +75,8 @@ export const Main: React.FC<MainProps> = (props) => {
         borderWidth: 3,
         borderColor: "black",
         opacity: fadeIn,
-        left: Dimensions.get("window").width / 2.3,
-        top: Dimensions.get("window").height / 4
+        left: Dimensions.get("window").width / 3,
+        top: Dimensions.get("window").height / 4,
       }}
     >
       <Text
@@ -84,7 +84,7 @@ export const Main: React.FC<MainProps> = (props) => {
           fontSize: 40,
           top: 0,
           color: "white",
-          textAlign: "center"
+          textAlign: "center",
         }}
       >
         {props.title}
@@ -100,7 +100,7 @@ export const Main: React.FC<MainProps> = (props) => {
             color: "black",
             textAlign: "center",
             fontWeight: "bold",
-            top: 0
+            top: 0,
           }}
         >
           {props.option1}
@@ -117,7 +117,7 @@ export const Main: React.FC<MainProps> = (props) => {
             color: "black",
             textAlign: "center",
             fontWeight: "bold",
-            top: 0
+            top: 0,
           }}
         >
           {props.option2}
@@ -134,7 +134,7 @@ export const Main: React.FC<MainProps> = (props) => {
             top: 0,
             color: "black",
             textAlign: "center",
-            fontWeight: "bold"
+            fontWeight: "bold",
           }}
         >
           {props.option3}
@@ -151,7 +151,7 @@ export const Main: React.FC<MainProps> = (props) => {
             top: 0,
             color: "black",
             textAlign: "center",
-            fontWeight: "bold"
+            fontWeight: "bold",
           }}
         >
           {props.option4}
@@ -167,7 +167,7 @@ const Message: React.FC<Props> = (props) => {
       style={{
         backgroundColor: "darkslategrey",
         width: 170,
-        height: 170
+        height: 170,
       }}
     >
       <Text
@@ -175,7 +175,7 @@ const Message: React.FC<Props> = (props) => {
           fontSize: 40,
           top: 0,
           color: "white",
-          textAlign: "center"
+          textAlign: "center",
         }}
       >
         {props.title}
@@ -184,7 +184,7 @@ const Message: React.FC<Props> = (props) => {
         style={{
           top: 60,
           color: "white",
-          textAlign: "center"
+          textAlign: "center",
         }}
       >
         {props.message}
@@ -213,7 +213,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
       style={{
         backgroundColor: "burlywood",
         width: 70,
-        height: 170
+        height: 170,
       }}
     >
       <Pressable
@@ -227,7 +227,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
             color: "black",
             textAlign: "center",
             fontWeight: "bold",
-            top: 0
+            top: 0,
           }}
         >
           {props.option1}
@@ -244,7 +244,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
             color: "black",
             textAlign: "center",
             fontWeight: "bold",
-            top: 0
+            top: 0,
           }}
         >
           {props.option2}
@@ -261,7 +261,7 @@ export const Menu: React.FC<MenuProps> = (props) => {
             top: 0,
             color: "black",
             textAlign: "center",
-            fontWeight: "bold"
+            fontWeight: "bold",
           }}
         >
           {props.option3}
@@ -277,7 +277,7 @@ export const Items: React.FC<ItemProps> = (props) => {
       style={{
         backgroundColor: "burlywood",
         width: 70,
-        height: 170
+        height: 170,
       }}
     >
       <Pressable
@@ -290,7 +290,7 @@ export const Items: React.FC<ItemProps> = (props) => {
             top: 0,
             color: "black",
             textAlign: "center",
-            fontWeight: "bold"
+            fontWeight: "bold",
           }}
         >
           {props.item1}
@@ -311,7 +311,7 @@ export const Items: React.FC<ItemProps> = (props) => {
             top: 40,
             color: "black",
             textAlign: "center",
-            fontWeight: "bold"
+            fontWeight: "bold",
           }}
         >
           {props.item2}
