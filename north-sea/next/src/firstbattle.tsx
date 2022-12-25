@@ -20,11 +20,14 @@ import {
   Ocean,
   CannonFireAnim,
 } from "./types/imports";
-import {
-  TabRouter,
-  ThemeProvider,
-  useNavigation,
-} from "@react-navigation/native";
+import { connect } from "react-redux";
+import store, { root } from "./store";
+import { increment, decrement } from "./reducer";
+
+const mapState = (state: root) => ({
+  value: state.value,
+});
+
 const s = StyleSheet.create({
   health: {
     color: "#117A65",
@@ -53,7 +56,10 @@ let ins: { up: number; down: number; left: number; right: number } = {
 const ssplayer = new Infantry([36, 6, false, 2000]);
 // const en = new Trainee([40, 4, false, 3000]);
 
-class Battle extends React.Component<{ navigation }, AppState> {
+class Battle extends React.Component<
+  { navigation; increment: (payload: number) => any; value: number },
+  AppState
+> {
   /** Player positions: *were* passed to enemy component (they don't update though cause react is gay)*/
   pos: { p1: number[]; p2: number[]; p3: number[]; enemy: number[] };
   pSelect: PlayerSelectsType;
@@ -218,8 +224,9 @@ class Battle extends React.Component<{ navigation }, AppState> {
               <Pressable
                 onPress={() => {
                   if (this.state.playerIsPressed) {
-                    alert("ijiowefjioef");
-                    this.attack();
+                    alert("Redux Increment!");
+                    this.props.increment(1);
+                    console.log(store.getState());
                   }
                 }}
               >
@@ -275,7 +282,7 @@ class Battle extends React.Component<{ navigation }, AppState> {
                     this.props.navigation.popToTop();
                   }}
                 >
-                  {String()}
+                  {String(this.props.value)}
                 </Button>
               </View>
             </View>
@@ -288,7 +295,4 @@ class Battle extends React.Component<{ navigation }, AppState> {
   }
 }
 
-export default function (props) {
-  const navigation = useNavigation();
-  return <Battle navigation={navigation} />;
-}
+export default connect(mapState, { increment })(Battle);
