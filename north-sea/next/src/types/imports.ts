@@ -15,10 +15,10 @@ export {
   PlayerSelectsType,
   Infantry,
   Main,
-  StartUp,
   Battle,
+  StartUp,
   Trainee,
   Ocean,
   CannonFireAnim,
-  Bar
+  Bar,
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, ImageBackground, Dimensions } from "react-native";
-import { StartUp, Battle, Main, Infantry } from "./types/imports";
+import { StartUp, Main, Infantry } from "./types/imports";
 import { Provider as PaperProvider, Button } from "react-native-paper";
 import { connect } from "react-redux";
 import store, { root } from "./store";
@@ -75,7 +75,6 @@ class MainMenu extends React.Component<
             }}
             source={StartUp}
           >
-            {this.state.show && <Battle />}
             <View
               style={{
                 position: "absolute",
