@@ -11,7 +11,7 @@
   "tasks": {
     "cd north-sea/next && npm run web": {
       "name": "Start development server",
-      "command": "cd north-sea/next && yarn next dev",
+      "command": "cd north-sea/next && npm run web",
       "runAtStart": true
     }
   }
