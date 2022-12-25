@@ -275,7 +275,7 @@ class Battle extends React.Component<{ navigation }, AppState> {
                     this.props.navigation.popToTop();
                   }}
                 >
-                  {String(this.state.playerIsPressed)}
+                  {String()}
                 </Button>
               </View>
             </View>

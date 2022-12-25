@@ -8,7 +8,7 @@ export default interface AppState {
   /** Opacity for playaers and enemies. Changes when either attacks */
   opacity: [number, number];
   /** Player [hp, attack, speed] */
-  pstats: [number, number, number];
+  pstats: [number, number, boolean, number];
   /** Enemy [hp, attack, blockshow, cooldowntime]  */
   enstats: [number, number, boolean, number];
   /** Logs */
