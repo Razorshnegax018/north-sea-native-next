@@ -1,25 +1,33 @@
 abstract class Player {
-  /** New player stats: HP, ATK, and SPD */
-  pstats: [number, number, boolean, number];
-  constructor(pstats: [number, number, boolean, number]) {
+  /** Player Stats to be passed to redux reducer:  */
+  pstats: {
+    health: number;
+    attack: number;
+    reloadSpeed: number;
+  };
+  constructor(pstats: { health: number; attack: number; reloadSpeed: number }) {
     this.pstats = pstats;
   }
-  setStats(): [number, number, number] {
+  setStats(): { health: number; attack: number; reloadSpeed: number } {
     return this.pstats;
   }
 }
 
 abstract class Enemy {
-  enstats: [number, number, boolean, number];
-  skills: (string | boolean)[];
-  constructor(enstats: [number, number, boolean, number]) {
+  enstats: {
+    health: number;
+    attack: number;
+    reloadSpeed: number;
+  };
+  constructor(enstats: {
+    health: number;
+    attack: number;
+    reloadSpeed: number;
+  }) {
     this.enstats = enstats;
   }
-  setStats(): [number, number, boolean, number] {
+  setStats(): { health: number; attack: number; reloadSpeed: number } {
     return this.enstats;
-  }
-  setSkills(): (string | boolean)[] {
-    return this.skills;
   }
   /** playerUp: neg, playerdown: s, left: neg, right: pos */
   shouldMove(
@@ -49,8 +57,8 @@ abstract class Enemy {
   }
 }
 
-export class Infantry extends Player {
-  constructor(pstats: [number, number, boolean, number]) {
+export class PatrolBoat extends Player {
+  constructor(pstats: { health: number; attack: number; reloadSpeed: number }) {
     super(pstats);
   }
 }
@@ -58,6 +66,5 @@ export class Infantry extends Player {
 export class Trainee extends Enemy {
   constructor(enstats: [number, number, boolean, number]) {
     super(enstats);
-    this.skills = ["fssdf", false];
   }
 }

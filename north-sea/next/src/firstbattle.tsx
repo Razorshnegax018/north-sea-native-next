@@ -9,18 +9,17 @@ import {
   StyleSheet,
   Dimensions,
   ImageBackground,
-  TextInput,
 } from "react-native";
 import {
   FreeCruise,
   AppState,
   PlayerSelectsType,
-  Infantry,
+  PatrolBoat,
   Trainee,
   Ocean,
   CannonFireAnim,
 } from "./types/imports";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import store, { root } from "./store";
 import { increment, decrement } from "./reducer";
 
@@ -56,10 +55,16 @@ let ins: { up: number; down: number; left: number; right: number } = {
 const ssplayer = new Infantry([36, 6, false, 2000]);
 // const en = new Trainee([40, 4, false, 3000]);
 
-class Battle extends React.Component<
-  { navigation; increment: (payload: number) => any; value: number },
-  AppState
-> {
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const connector = connect(mapState, { increment });
+
+interface BattleProps extends PropsFromRedux {
+  navigation;
+  value: number;
+}
+
+class Battle extends React.Component<BattleProps, AppState> {
   /** Player positions: *were* passed to enemy component (they don't update though cause react is gay)*/
   pos: { p1: number[]; p2: number[]; p3: number[]; enemy: number[] };
   pSelect: PlayerSelectsType;
@@ -225,7 +230,7 @@ class Battle extends React.Component<
                 onPress={() => {
                   if (this.state.playerIsPressed) {
                     alert("Redux Increment!");
-                    this.props.increment(1);
+                    this.props.increment();
                     console.log(store.getState());
                   }
                 }}
@@ -295,4 +300,4 @@ class Battle extends React.Component<
   }
 }
 
-export default connect(mapState, { increment })(Battle);
+export default connector(Battle);

@@ -5,7 +5,6 @@ import Battle from "./firstbattle";
 import { Provider } from "react-redux";
 import store from "./store";
 import MainMenu from "./main";
-import increment from "./reducer";
 
 type RootStackParamList = {
   MainMenu: undefined;

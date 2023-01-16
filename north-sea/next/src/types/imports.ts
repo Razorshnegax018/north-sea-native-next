@@ -1,6 +1,6 @@
 import FreeCruise from "../../public/icons/black/freecruise.jpg";
 import AppState, { PlayerSelectsType } from "./index";
-import { Infantry } from "../units/entities";
+import { PatrolBoat } from "../units/entities";
 import { Main } from "../eventbutton";
 import StartUp from "../../public/backgrounds/StartUp.jpg";
 import Battle from "../firstbattle";
@@ -13,7 +13,7 @@ export {
   FreeCruise,
   AppState,
   PlayerSelectsType,
-  Infantry,
+  PatrolBoat,
   Main,
   Battle,
   StartUp,
