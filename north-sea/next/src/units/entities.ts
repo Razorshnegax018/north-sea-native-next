@@ -64,7 +64,11 @@ export class PatrolBoat extends Player {
 }
 
 export class Trainee extends Enemy {
-  constructor(enstats: [number, number, boolean, number]) {
+  constructor(enstats: {
+    health: number;
+    attack: number;
+    reloadSpeed: number;
+  }) {
     super(enstats);
   }
 }

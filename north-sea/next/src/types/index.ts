@@ -7,10 +7,10 @@ export default interface AppState {
   weaponView: boolean[];
   /** Opacity for playaers and enemies. Changes when either attacks */
   opacity: [number, number];
-  /** Player [hp, attack, speed] */
-  pstats: [number, number, boolean, number];
-  /** Enemy [hp, attack, blockshow, cooldowntime]  */
-  enstats: [number, number, boolean, number];
+  /** Player { health: number; attack: number; reloadSpeed: number; } */
+  pstats: { health: number; attack: number; reloadSpeed: number; };
+  /** Enemy { health: number; attack: number; reloadSpeed: number; }  */
+  enstats: { health: number; attack: number; reloadSpeed: number; };
   /** Logs */
   log: string[];
   /** Bool that shows, not controlls, if the player is selected or not */

@@ -1,22 +1,24 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, ImageBackground, Dimensions } from "react-native";
-import { StartUp, Main, Infantry } from "./types/imports";
+import { StartUp, Main } from "./types/imports";
 import { Provider as PaperProvider, Button } from "react-native-paper";
 import { connect } from "react-redux";
 import store, { root } from "./store";
-import { increment, decrement } from "./reducer";
+import { attack, takeDamage } from "./reducer";
 
 const mapState = (state: root) => ({
-  value: state.value,
+  health: state.playerStats.health,
+  attack: state.playerStats.attack,
+  enattack: state.enemyStats.attack,
 });
 
 class MainMenu extends React.Component<
   {
     returnState?: (shown: boolean, pstate: boolean) => boolean;
     navigation: any;
-    increment: () => any;
-    value: number;
+    takeDamage: () => any;
+    health: number;
   },
   {
     show: boolean;
@@ -54,12 +56,9 @@ class MainMenu extends React.Component<
   ) => {
     if (map == true) {
       const navigation = this.props.navigation;
-      const ssplayer = new Infantry([36, 6, false, 2000]);
-      navigation.navigate("Battle", {
-        setStats: ssplayer.setStats(),
-      });
+      navigation.navigate("Battle");
     } else if (empty2 == true) {
-      this.props.increment(1);
+      this.props.takeDamage();
       console.log(store.getState());
     }
   };
@@ -86,7 +85,7 @@ class MainMenu extends React.Component<
                   option1="Free Battle"
                   option2="Demo Chapter 1"
                   option3="Add count"
-                  option4={"Count: " + this.props.value}
+                  option4={"Player Health: " + this.props.health}
                   returnState={this.menuReturn}
                 />
               )}
@@ -98,4 +97,4 @@ class MainMenu extends React.Component<
   }
 }
 
-export default connect(mapState, { increment })(MainMenu);
+export default connect(mapState, { takeDamage })(MainMenu);
