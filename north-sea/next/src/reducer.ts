@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PatrolBoat } from "./types/imports";
+import { PatrolBoat, Trainee } from "./types/imports";
 
 // Define a type for the slice state
 interface CounterState {
@@ -8,10 +8,11 @@ interface CounterState {
 
 const Player = new PatrolBoat({ health: 36, attack: 6, reloadSpeed: 2000 });
 
-const pstats = Player.setStats();
+const Enemy = new Trainee({ health: 40, attack: 3, reloadSpeed: 3000 });
 
 interface StatState {
   playerStats: { health: number; attack: number; reloadSpeed: number };
+  enemyStats: { health: number; attack: number; reloadSpeed: number };
 }
 
 // Define the initial state using that type
@@ -21,6 +22,7 @@ const initialState: CounterState = {
 
 const initialStatState: StatState = {
   playerStats: Player.setStats(),
+  enemyStats: Enemy.setStats(),
 };
 
 export const statsSlice = createSlice({
@@ -28,11 +30,11 @@ export const statsSlice = createSlice({
   initialState: initialStatState,
   reducers: {
     takeDamage: (state) => {
-      // TODO: create a state instance of enemy stats after re-configuring their types in the entities file 
+      state.playerStats.health -= state.enemyStats.attack;
     },
     attack: (state) => {
-      // TODO: as stated above 
-    } 
+      state.enemyStats.health -= state.playerStats.attack;
+    },
   },
 });
 
@@ -54,6 +56,8 @@ export const counterSlice = createSlice({
   },
 });
 
+export const { takeDamage, attack } = statsSlice.actions;
+
 export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
-export default counterSlice.reducer;
+export default statsSlice.reducer;

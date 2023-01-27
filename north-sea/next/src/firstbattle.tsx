@@ -15,16 +15,18 @@ import {
   AppState,
   PlayerSelectsType,
   PatrolBoat,
-  Trainee,
   Ocean,
   CannonFireAnim,
 } from "./types/imports";
 import { connect, ConnectedProps } from "react-redux";
 import store, { root } from "./store";
-import { increment, decrement } from "./reducer";
+import { attack, takeDamage } from "./reducer";
 
 const mapState = (state: root) => ({
-  value: state.value,
+  health: state.playerStats.health,
+  attack: state.playerStats.attack,
+  enattack: state.enemyStats.attack,
+  enhealth: state.enemyStats.health,
 });
 
 const s = StyleSheet.create({
@@ -52,16 +54,16 @@ let ins: { up: number; down: number; left: number; right: number } = {
   right: 0,
 };
 
-const ssplayer = new Infantry([36, 6, false, 2000]);
+const ssplayer = new PatrolBoat({ health: 36, attack: 6, reloadSpeed: 2000 });
 // const en = new Trainee([40, 4, false, 3000]);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const connector = connect(mapState, { increment });
+const connector = connect(mapState, { attack, takeDamage });
 
 interface BattleProps extends PropsFromRedux {
   navigation;
-  value: number;
+  health: number;
 }
 
 class Battle extends React.Component<BattleProps, AppState> {
@@ -77,8 +79,6 @@ class Battle extends React.Component<BattleProps, AppState> {
     enloc: [200, 0],
     weaponView: [false, false],
     opacity: [1, 1],
-    pstats: ssplayer.setStats(),
-    enstats: [40, 4, false, 3000],
     log: [],
     pIsSelect: false,
     anims: { move: false, fire: false },
@@ -129,10 +129,7 @@ class Battle extends React.Component<BattleProps, AppState> {
         playing: false,
       });
     }, 3000);
-    this.setState({
-      enstats: [e[0] - p[1], e[1], e[2], e[3]],
-      pIsSelect: false,
-    });
+    this.props.attack();
     return;
   }
 
@@ -230,7 +227,7 @@ class Battle extends React.Component<BattleProps, AppState> {
                 onPress={() => {
                   if (this.state.playerIsPressed) {
                     alert("Redux Increment!");
-                    this.props.increment();
+                    this.props.attack();
                     console.log(store.getState());
                   }
                 }}
@@ -287,7 +284,7 @@ class Battle extends React.Component<BattleProps, AppState> {
                     this.props.navigation.popToTop();
                   }}
                 >
-                  {String(this.props.value)}
+                  {String(this.props.health)}
                 </Button>
               </View>
             </View>
