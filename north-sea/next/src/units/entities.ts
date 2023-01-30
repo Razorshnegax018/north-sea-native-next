@@ -13,21 +13,29 @@ abstract class Player {
   }
 }
 
+type spawnPointType = {
+  top: number;
+  left: number;
+};
+
+type EnStatsType = {
+  health: number;
+  attack: number;
+  reloadSpeed: number;
+};
+
 abstract class Enemy {
-  enstats: {
-    health: number;
-    attack: number;
-    reloadSpeed: number;
-  };
-  constructor(enstats: {
-    health: number;
-    attack: number;
-    reloadSpeed: number;
-  }) {
+  enstats: EnStatsType;
+  spawnPoint: spawnPointType[];
+  constructor(enstats: EnStatsType, spawnPoint: spawnPointType[]) {
     this.enstats = enstats;
+    this.spawnPoint = spawnPoint;
   }
-  setStats(): { health: number; attack: number; reloadSpeed: number } {
+  setStats(): EnStatsType {
     return this.enstats;
+  }
+  setSpawnPoint(): spawnPointType[] {
+    return this.spawnPoint;
   }
   /** playerUp: neg, playerdown: s, left: neg, right: pos */
   shouldMove(
@@ -64,11 +72,7 @@ export class PatrolBoat extends Player {
 }
 
 export class Trainee extends Enemy {
-  constructor(enstats: {
-    health: number;
-    attack: number;
-    reloadSpeed: number;
-  }) {
-    super(enstats);
+  constructor(enstats: EnStatsType, spawnPoint: spawnPointType[]) {
+    super(enstats, spawnPoint);
   }
 }

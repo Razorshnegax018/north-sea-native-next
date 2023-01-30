@@ -8,6 +8,7 @@ import { Trainee } from "../units/entities";
 import Ocean from "../../public/backgrounds/background.jpeg";
 import CannonFireAnim from "../animations/cannonfire";
 import Bar from "../../public/icons/black/bar.png";
+import UnitStatusBar from "../animations/unitstats";
 
 export {
   FreeCruise,
@@ -21,4 +22,5 @@ export {
   Ocean,
   CannonFireAnim,
   Bar,
+  UnitStatusBar,
 };
