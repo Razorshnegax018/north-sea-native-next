@@ -17,17 +17,24 @@ import {
   PatrolBoat,
   Ocean,
   CannonFireAnim,
+  UnitStatusBar,
+  Trainee,
 } from "./types/imports";
 import { connect, ConnectedProps } from "react-redux";
 import store, { root } from "./store";
-import { attack, takeDamage } from "./reducer";
+import { attack, takeDamage, moveEnemy } from "./reducer";
 
 const mapState = (state: root) => ({
   health: state.playerStats.health,
   attack: state.playerStats.attack,
   enattack: state.enemyStats.attack,
   enhealth: state.enemyStats.health,
+  enemyLocs: state.enemyLocations,
 });
+
+const Enemy = new Trainee({ health: 40, attack: 3, reloadSpeed: 3000 }, [
+  { top: 200, left: 0 },
+]);
 
 const s = StyleSheet.create({
   health: {
@@ -59,7 +66,7 @@ const ssplayer = new PatrolBoat({ health: 36, attack: 6, reloadSpeed: 2000 });
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const connector = connect(mapState, { attack, takeDamage });
+const connector = connect(mapState, { attack, takeDamage, moveEnemy });
 
 interface BattleProps extends PropsFromRedux {
   navigation;
@@ -84,6 +91,7 @@ class Battle extends React.Component<BattleProps, AppState> {
     anims: { move: false, fire: false },
     playing: false,
     playerIsPressed: false,
+    showPallet: false,
   };
   constructor(props) {
     super(props);
@@ -169,7 +177,7 @@ class Battle extends React.Component<BattleProps, AppState> {
 
   componentDidMount() {
     setInterval(() => {
-      this.moveright(0.1);
+      this.props.moveEnemy({ dir: "right", enemyIndex: 0, speed: 0.1 });
     }, 1);
   }
 
@@ -234,8 +242,8 @@ class Battle extends React.Component<BattleProps, AppState> {
               >
                 <View
                   style={{
-                    top: this.state.enloc[0],
-                    left: this.state.enloc[1],
+                    top: this.props.enemyLocs[0].top,
+                    left: this.props.enemyLocs[0].left,
                     position: "absolute",
                   }}
                 >
@@ -250,28 +258,18 @@ class Battle extends React.Component<BattleProps, AppState> {
                   />
                 </View>
               </Pressable>
-              {/** View for logs */}
-              <View
-                style={{
-                  position: "absolute",
-                  left: 200,
-                  top: 500,
-                  width: 500,
-                  height: 100,
-                  borderStyle: "solid",
-                  borderWidth: 2,
-                }}
-              >
+              {/** View for side Pallet */}
+              {this.state.showPallet && (
                 <View
                   style={{
-                    flexDirection: "column",
+                    alignSelf: "flex-end",
+                    marginTop: -5,
+                    position: "absolute",
                   }}
                 >
-                  {this.state.log.map((s, i) => {
-                    return <Text>{this.state.log[i]}</Text>;
-                  })}
+                  <UnitStatusBar />
                 </View>
-              </View>
+              )}
               {/** View for the surrender button, will be put into a menu soon */}
               <View
                 style={{
@@ -284,7 +282,7 @@ class Battle extends React.Component<BattleProps, AppState> {
                     this.props.navigation.popToTop();
                   }}
                 >
-                  {String(this.props.health)}
+                  {"Hey thre brose"}
                 </Button>
               </View>
             </View>

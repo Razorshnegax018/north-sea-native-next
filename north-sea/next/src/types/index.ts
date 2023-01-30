@@ -21,6 +21,8 @@ export default interface AppState {
   playing: boolean;
   /** Checks if the player is pressed or not */
   playerIsPressed: boolean;
+  /** Bool to control if the side Pallet is shown */
+  showPallet: boolean
 }
 
 export type Directions = "up" | "down" | "left" | "right";
