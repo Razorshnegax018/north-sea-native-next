@@ -6,6 +6,7 @@ import { Provider as PaperProvider, Button } from "react-native-paper";
 import { connect } from "react-redux";
 import store, { root } from "./store";
 import { attack, takeDamage } from "./reducer";
+import Image from "next/image";
 
 const mapState = (state: root) => ({
   health: state.playerStats.health,
@@ -52,14 +53,16 @@ class MainMenu extends React.Component<
     map: boolean,
     chap1: boolean,
     empty2: boolean,
-    empty3: boolean
+    shipbuild: boolean
   ) => {
+    const navigation = this.props.navigation;
     if (map == true) {
-      const navigation = this.props.navigation;
       navigation.navigate("Battle");
     } else if (empty2 == true) {
       this.props.takeDamage();
       console.log(store.getState());
+    } else if (shipbuild == true) {
+      navigation.navigate("Shipbuilder");
     }
   };
 
@@ -69,8 +72,9 @@ class MainMenu extends React.Component<
         <View>
           <ImageBackground
             style={{
-              width: Dimensions.get("screen").width,
-              height: Dimensions.get("screen").height,
+              width: Dimensions.get("window").width,
+              height: Dimensions.get("window").height,
+              position: "absolute",
             }}
             source={StartUp}
           >
@@ -85,7 +89,7 @@ class MainMenu extends React.Component<
                   option1="Free Battle"
                   option2="Demo Chapter 1"
                   option3="Add count"
-                  option4={"Player Health: " + this.props.health}
+                  option4={"Shipbuilder"}
                   returnState={this.menuReturn}
                 />
               )}

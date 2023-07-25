@@ -1,5 +1,5 @@
 import React, { KeyboardEvent } from "react";
-import { Button } from "react-native-paper";
+import { Button, Appbar } from "react-native-paper";
 import {
   Image,
   Pressable,
@@ -16,13 +16,14 @@ import {
   PlayerSelectsType,
   PatrolBoat,
   Ocean,
-  CannonFireAnim,
+  Container,
   UnitStatusBar,
   Trainee,
+  Battery,
 } from "./types/imports";
 import { connect, ConnectedProps } from "react-redux";
 import store, { root } from "./store";
-import { attack, takeDamage, moveEnemy } from "./reducer";
+import { attack, takeDamage, moveEnemy, changePlayer } from "./reducer";
 
 const mapState = (state: root) => ({
   health: state.playerStats.health,
@@ -30,6 +31,9 @@ const mapState = (state: root) => ({
   enattack: state.enemyStats.attack,
   enhealth: state.enemyStats.health,
   enemyLocs: state.enemyLocations,
+  playing: state.playing,
+  playerLocs: state.playerLocations,
+  batterypos: state.batteryPos,
 });
 
 const Enemy = new Trainee({ health: 40, attack: 3, reloadSpeed: 3000 }, [
@@ -66,7 +70,12 @@ const ssplayer = new PatrolBoat({ health: 36, attack: 6, reloadSpeed: 2000 });
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const connector = connect(mapState, { attack, takeDamage, moveEnemy });
+const connector = connect(mapState, {
+  attack,
+  takeDamage,
+  moveEnemy,
+  changePlayer,
+});
 
 interface BattleProps extends PropsFromRedux {
   navigation;
@@ -82,7 +91,7 @@ class Battle extends React.Component<BattleProps, AppState> {
   interval: number;
   d: { width: number; height: number };
   state: AppState = {
-    p1loc: [60, Dimensions.get("window").width - 32],
+    p1loc: [],
     enloc: [200, 0],
     weaponView: [false, false],
     opacity: [1, 1],
@@ -92,6 +101,7 @@ class Battle extends React.Component<BattleProps, AppState> {
     playing: false,
     playerIsPressed: false,
     showPallet: false,
+    showDamageNumbers: false,
   };
   constructor(props) {
     super(props);
@@ -114,13 +124,8 @@ class Battle extends React.Component<BattleProps, AppState> {
     };
   }
 
-  /** The function that handles the sending of telegraphs */
-  sendTelegraph(value: string) {}
-
   /** The method for the attack animation: will be called mulitple times, so will be bound */
   async attack() {
-    const e = this.state.enstats;
-    const p = this.state.pstats;
     this.setState({
       anims: {
         fire: true,
@@ -136,7 +141,7 @@ class Battle extends React.Component<BattleProps, AppState> {
         },
         playing: false,
       });
-    }, 3000);
+    }, 6000);
     this.props.attack();
     return;
   }
@@ -176,36 +181,41 @@ class Battle extends React.Component<BattleProps, AppState> {
   };
 
   componentDidMount() {
-    setInterval(() => {
-      this.props.moveEnemy({ dir: "right", enemyIndex: 0, speed: 0.1 });
-    }, 1);
+    if (this.state.playing === true) {
+      return;
+    } else if (this.state.playing === false) {
+      setInterval(() => {
+        this.props.moveEnemy({ dir: "right", enemyIndex: 0, speed: 0.1 });
+      }, 1);
+      setInterval(() => {});
+    }
   }
 
   render() {
-    const p = this.state.pstats;
-    const e = this.state.pstats;
     if (this.state.playing === false) {
       // Returns the normal render content if there is no animation
       return (
         <View>
           <ImageBackground
             style={{
-              width: Dimensions.get("window").width,
-              height: Dimensions.get("window").height,
+              width: Dimensions.get("screen").width,
+              height: Dimensions.get("screen").height,
             }}
             source={Ocean}
           >
             {this.state.anims.fire && (
               <View
                 style={{
-                  width: Dimensions.get("window").width,
-                  height: Dimensions.get("window").height,
+                  width: Dimensions.get("screen").width,
+                  height: Dimensions.get("screen").height,
                   position: "absolute",
                 }}
               >
-                <CannonFireAnim />
+                <Container />
               </View>
             )}
+
+            {/** PLAYER VIEW */}
             <View>
               <Pressable
                 onPress={() => {
@@ -215,8 +225,8 @@ class Battle extends React.Component<BattleProps, AppState> {
                 <View
                   style={{
                     position: "absolute",
-                    top: this.state.p1loc[0],
-                    left: this.state.p1loc[1],
+                    top: this.props.playerLocs[0],
+                    left: this.props.playerLocs[1],
                   }}
                 >
                   <Animated.Image
@@ -227,16 +237,18 @@ class Battle extends React.Component<BattleProps, AppState> {
                       left: 5,
                     }}
                   />
+                  {}
                 </View>
               </Pressable>
+
+              {/** BATTERY VIEW */}
+              <View></View>
 
               {/** ENEMY VIEW */}
               <Pressable
                 onPress={() => {
                   if (this.state.playerIsPressed) {
-                    alert("Redux Increment!");
-                    this.props.attack();
-                    console.log(store.getState());
+                    this.attack();
                   }
                 }}
               >
@@ -256,6 +268,24 @@ class Battle extends React.Component<BattleProps, AppState> {
                       opacity: this.state.opacity[1],
                     }}
                   />
+
+                  {}
+
+                  {this.state.playerIsPressed && (
+                    <View
+                      style={{
+                        borderWidth: 1,
+                        position: "relative",
+                        top: -30,
+                        left: 0,
+                        height: 30,
+                        width: 30,
+                        backgroundColor: "firebrick",
+                        borderStyle: "solid",
+                        opacity: 0.5,
+                      }}
+                    />
+                  )}
                 </View>
               </Pressable>
               {/** View for side Pallet */}
@@ -290,7 +320,7 @@ class Battle extends React.Component<BattleProps, AppState> {
         </View>
       );
     } else if (this.state.playing === true) {
-      return <View>{this.state.anims.fire && <CannonFireAnim />}</View>;
+      return <View>{this.state.anims.fire && <Container />}</View>;
     }
   }
 }
