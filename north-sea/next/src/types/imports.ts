@@ -6,9 +6,10 @@ import StartUp from "../../public/backgrounds/StartUp.jpg";
 import Battle from "../firstbattle";
 import { Trainee } from "../units/entities";
 import Ocean from "../../public/backgrounds/background.jpeg";
-import CannonFireAnim from "../animations/cannonfire";
+import Container from "../animations/cannonfire";
 import Bar from "../../public/icons/black/bar.png";
-import UnitStatusBar from "../animations/unitstats";
+import UnitStatusBar, { Battery } from "../animations/unitstats";
+import Shipbuilder from "../menus/shipbuilder";
 
 export {
   FreeCruise,
@@ -20,7 +21,9 @@ export {
   StartUp,
   Trainee,
   Ocean,
-  CannonFireAnim,
+  Container,
   Bar,
   UnitStatusBar,
+  Battery,
+  Shipbuilder,
 };
